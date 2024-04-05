@@ -1,6 +1,6 @@
 <?php
 
-$db = mysqli_connect('localhost', 'root', '', 'crud-php');
+$db = mysqli_connect('localhost', 'root', '', 'bus_dealer');
 
 // cek koneksi
 // if (!$db) {

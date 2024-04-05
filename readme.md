@@ -1,4 +1,4 @@
-# Source Code Playlist Full CRUD PHP MySQL Muba Teknologi
+
 Teknologi :
 - PHP 8.*
 - Bootstrap 4.*
@@ -9,12 +9,12 @@ User Login
 - username : admin
 - password : 123456
 
-2. Akun Operator Barang
-- username : opmbarang
+2. Akun Operator bus
+- username : opmbus
 - password : 123456
 
-3. Akun Operator Mahasiswa
-- username : opmahasiswa
+3. Akun Operator pegawai
+- username : oppegawai
 - password : 123456
 
-link akses : localhost/full-crudphp
+link akses : localhost/crud_bus_dealer

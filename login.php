@@ -111,7 +111,7 @@ if (isset($_POST['login'])) {
                 <hr>
                 <p class="mb-1 text-center">
                     <span class="mt-5 mb-3 text-muted">Developer &copy;
-                        <a href="https://mubatekno.com">Muba Teknologi</a> <?= date('Y') ?>
+                        <a href="https://bilalihsan.my.id/">Bilalihsan.my.id</a> <?= date('Y') ?>
                     </span>
                 </p>
             </div>

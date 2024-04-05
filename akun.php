@@ -75,10 +75,10 @@ if (isset($_POST['ubah'])) {
 
     <!-- Main content -->
     <section class="content">
-        <div class="container-fluid">
+        <div class="container-fluid" style=" padding: 5vh;">
 
             <!-- Main content -->
-            <div class="card">
+            <div class="card" style=" padding: 2vh;">
                 <div class="card-header">
                     <h3 class="card-title">Tabel Data Akun</h3>
                 </div>
@@ -179,8 +179,8 @@ if (isset($_POST['ubah'])) {
                         <select name="level" id="level" class="form-control" required>
                             <option value="">-- pilih level --</option>
                             <option value="1">Admin</option>
-                            <option value="2">Operator Barang</option>
-                            <option value="3">Operator Mahasiswa</option>
+                            <option value="2">Operator Bus</option>
+                            <option value="3">Operator Pegawai</option>
                         </select>
                     </div>
             </div>
@@ -234,8 +234,8 @@ if (isset($_POST['ubah'])) {
                                 <select name="level" id="level" class="form-control" required>
                                     <?php $level = $akun['level']; ?>
                                     <option value="1" <?= $level == '1' ? 'selected' : null ?>>Admin</option>
-                                    <option value="2" <?= $level == '2' ? 'selected' : null ?>>Operator Barang</option>
-                                    <option value="3" <?= $level == '3' ? 'selected' : null ?>>Operator Mahasiswa</option>
+                                    <option value="2" <?= $level == '2' ? 'selected' : null ?>>Operator Bus</option>
+                                    <option value="3" <?= $level == '3' ? 'selected' : null ?>>Operator Pegawai</option>
                                 </select>
                             </div>
                         <?php else : ?>

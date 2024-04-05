@@ -16,62 +16,78 @@ function select($query)
     return $rows;
 }
 
-// fungsi menambahkan data barang
-function create_barang($post)
+// fungsi menambahkan data bus
+function tambah_bus($post)
 {
     global $db;
 
-    $nama       = strip_tags($post['nama']);
-    $jumlah     = strip_tags($post['jumlah']);
-    $harga      = strip_tags($post['harga']);
-    $barcode    = rand(100000, 999999);   
+    $platnomor     = strip_tags($post['platnomor']);
+    $model         = strip_tags($post['model']);
+    $karoseri      = strip_tags($post['karoseri']);
+    $chasis      = strip_tags($post['chasis']);
+    $harga         = strip_tags($post['harga']);
+    $tanggal       = strip_tags($post['tanggal']);
+    $kondisi       = strip_tags($post['kondisi']);
+    $foto          = upload_filebus();
 
     // query tambah data
-    $query = "INSERT INTO barang VALUES(null, '$nama', '$jumlah', '$harga', '$barcode', CURRENT_TIMESTAMP())";
+    $query = "INSERT INTO data_bus VALUES(NULL, '$platnomor', '$model', '$karoseri', '$chasis', '$tanggal', '$harga', '$kondisi', '$foto')";
 
     mysqli_query($db, $query);
 
     return mysqli_affected_rows($db);
 }
 
-// fungsi mengubah data barang
-function update_barang($post)
+// fungsi mengubah data bus
+function update_bus($post)
 {
     global $db;
 
-    $id_barang  = $post['id_barang'];
-    $nama       = strip_tags($post['nama']);
-    $jumlah     = strip_tags($post['jumlah']);
-    $harga      = strip_tags($post['harga']);
+    $id_bus      = strip_tags($post['id_bus']);
+    // $platnomor       = strip_tags($post['plat_no']);
+    $model           = strip_tags($post['model']);
+    $karoseri        = strip_tags($post['karoseri']);
+    $harga           = strip_tags($post['harga']);
+    $tanggal         = strip_tags($post['tanggal']);
+    $kondisi         = strip_tags($post['kondisi']);
+    $fotoLama        = strip_tags($post['fotoLama']);
+
+    // check upload foto baru atau tidak
+    if ($_FILES['foto']['error'] == 4) {
+        $foto = $fotoLama;
+    } else {
+        $foto = upload_file();
+    }
+
 
     // query ubah data
-    $query = "UPDATE barang SET nama = '$nama', jumlah = '$jumlah', harga = '$harga' WHERE id_barang = $id_barang";
+    $query = "UPDATE data_bus SET model = '$model', karoseri = '$karoseri', tanggal_pembuatan = '$tanggal', harga = '$harga', kondisi = '$kondisi', foto = '$foto' WHERE id_bus = $id_bus";
 
     mysqli_query($db, $query);
 
     return mysqli_affected_rows($db);
 }
 
-// fungsi menghapus data barang
-function delete_barang($id_barang)
+// fungsi menghapus data bus
+function delete_bus($id_bus)
 {
     global $db;
 
-    // query hapus data barang
-    $query = "DELETE FROM barang WHERE id_barang = $id_barang";
+    // query hapus data bus
+    $query = "DELETE FROM data_bus WHERE id_bus = $id_bus";
 
     mysqli_query($db, $query);
 
     return mysqli_affected_rows($db);
 }
 
-// fungsi menambah data mahasiswa
-function create_mahasiswa($post)
+// fungsi menambah data pegawai
+function create_pegawai($post)
 {
     global $db;
 
     $nama       = strip_tags($post['nama']);
-    $prodi      = strip_tags($post['prodi']);
+    $divisi      = strip_tags($post['divisi']);
     $jk         = strip_tags($post['jk']);
     $telepon    = strip_tags($post['telepon']);
     $alamat     = $post['alamat'];
@@ -84,21 +100,21 @@ function create_mahasiswa($post)
     }
 
     // query tambah data
-    $query = "INSERT INTO mahasiswa VALUES(null, '$nama', '$prodi', '$jk', '$telepon', '$alamat', '$email', '$foto')";
+    $query = "INSERT INTO pegawai VALUES(NULL, '$nama', '$divisi', '$jk', '$telepon', '$alamat', '$email', '$foto')";
 
     mysqli_query($db, $query);
 
     return mysqli_affected_rows($db);
 }
 
-// fungsi mengubah data mahasiswa
-function update_mahasiswa($post)
+// fungsi mengubah data pegawai
+function update_pegawai($post)
 {
     global $db;
 
-    $id_mahasiswa = strip_tags($post['id_mahasiswa']);
+    $id_pegawai = strip_tags($post['id_pegawai']);
     $nama       = strip_tags($post['nama']);
-    $prodi      = strip_tags($post['prodi']);
+    $divisi      = strip_tags($post['divisi']);
     $jk         = strip_tags($post['jk']);
     $telepon    = strip_tags($post['telepon']);
     $alamat     = $post['alamat'];
@@ -113,7 +129,7 @@ function update_mahasiswa($post)
     }
 
     // query ubah data
-    $query = "UPDATE mahasiswa SET nama = '$nama', prodi = '$prodi', jk = '$jk', telepon = '$telepon', alamat = '$alamat', email = '$email', foto = '$foto' WHERE id_mahasiswa = $id_mahasiswa";
+    $query = "UPDATE pegawai SET nama = '$nama', divisi_bidang = '$divisi', jk = '$jk', telepon = '$telepon', alamat = '$alamat', email = '$email', foto = '$foto' WHERE id_pegawai = $id_pegawai";
 
     mysqli_query($db, $query);
 
@@ -138,7 +154,7 @@ function upload_file()
         // pesan gagal
         echo "<script>
                 alert('Format File Tidak Valid');
-                document.location.href = 'tambah-mahasiswa.php';
+                document.location.href = 'pegawai.php';
               </script>";
         die();
     }
@@ -148,7 +164,7 @@ function upload_file()
         // pesan gagal
         echo "<script>
                 alert('Ukuran File Max 2 MB');
-                document.location.href = 'tambah-mahasiswa.php';
+                document.location.href = 'pegawai.php';
               </script>";
         die();
     }
@@ -163,17 +179,59 @@ function upload_file()
     return $namaFileBaru;
 }
 
-// fungsi menghapus data mahasiswa
-function delete_mahasiswa($id_mahasiswa)
+function upload_filebus()
+{
+    $namaFile   = $_FILES['foto']['name'];
+    $ukuranFile = $_FILES['foto']['size'];
+    $error      = $_FILES['foto']['error'];
+    $tmpName    = $_FILES['foto']['tmp_name'];
+
+    // check file yang diupload
+    $extensifileValid = ['jpg', 'jpeg', 'png'];
+    $extensifile      = explode('.', $namaFile);
+    $extensifile      = strtolower(end($extensifile));
+
+    // check format/extensi file
+    if (!in_array($extensifile, $extensifileValid)) {
+        // pesan gagal
+        echo "<script>
+                alert('Format File Tidak Valid');
+                document.location.href = 'index.php';
+              </script>";
+        die();
+    }
+
+    // check ukuran file 2 MB
+    if ($ukuranFile > 20480000) {
+        // pesan gagal
+        echo "<script>
+                alert('Ukuran File Max 2 MB');
+                document.location.href = 'index.php';
+              </script>";
+        die();
+    }
+
+    // generate nama file baru
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $extensifile;
+
+    // pindahkan ke folder local
+    move_uploaded_file($tmpName, 'assets-template/img/' . $namaFileBaru);
+    return $namaFileBaru;
+}
+
+// fungsi menghapus data pegawai
+function delete_pegawai($id_pegawai)
 {
     global $db;
 
     // ambil foto sesuai data yang dipilih
-    $foto = select("SELECT * FROM mahasiswa WHERE id_mahasiswa = $id_mahasiswa")[0];
-    unlink("assets-template/img/". $foto['foto']);
+    $foto = select("SELECT * FROM pegawai WHERE id_pegawai = $id_pegawai")[0];
+    unlink("assets-template/img/" . $foto['foto']);
 
-    // query hapus data mahasiswa
-    $query = "DELETE FROM mahasiswa WHERE id_mahasiswa = $id_mahasiswa";
+    // query hapus data pegawai
+    $query = "DELETE FROM pegawai WHERE id_pegawai = $id_pegawai";
 
     mysqli_query($db, $query);
 
